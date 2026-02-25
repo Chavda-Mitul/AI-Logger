@@ -3,9 +3,13 @@
  */
 import { useState, useEffect, useCallback } from 'react';
 import { format } from 'date-fns';
-import { logsApi, type Log, type LogFilters } from '../lib/api';
+import { logsApi, type Log } from '../lib/api';
 
-export default function LogsTable() {
+interface Props {
+  projectId: string;
+}
+
+export default function LogsTable({ projectId }: Props) {
   const [logs, setLogs]         = useState<Log[]>([]);
   const [total, setTotal]       = useState(0);
   const [totalPages, setTotalPages] = useState(1);
@@ -25,14 +29,14 @@ export default function LogsTable() {
     setLoading(true);
     setError('');
     try {
-      const filters: LogFilters = { page, limit: 20 };
-      if (search)    filters.search    = search;
-      if (model)     filters.model     = model;
-      if (startDate) filters.startDate = startDate;
-      if (endDate)   filters.endDate   = endDate;
+      const filters = { page, limit: 20 };
+      if (search) filters.search = search;
+      if (model) filters.model = model;
+      if (startDate) filters.from = startDate;
+      if (endDate) filters.to = endDate;
 
-      const res = await logsApi.list(filters);
-      setLogs(res.data);
+      const res = await logsApi.list(projectId, filters);
+      setLogs(res.logs);
       setTotal(res.pagination.total);
       setTotalPages(res.pagination.totalPages);
     } catch (err: unknown) {
@@ -40,14 +44,14 @@ export default function LogsTable() {
     } finally {
       setLoading(false);
     }
-  }, [page, search, model, startDate, endDate]);
+  }, [projectId, page, search, model, startDate, endDate]);
 
   useEffect(() => { fetchLogs(); }, [fetchLogs]);
 
   async function handleExport() {
     setExporting(true);
     try {
-      const csv = await logsApi.exportCsv({ search, model, startDate, endDate });
+      const csv = await logsApi.export(projectId, { model, from: startDate, to: endDate });
       const blob = new Blob([csv], { type: 'text/csv' });
       const url  = URL.createObjectURL(blob);
       const a    = document.createElement('a');

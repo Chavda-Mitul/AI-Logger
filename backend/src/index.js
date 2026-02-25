@@ -15,6 +15,9 @@ const ingestRouter    = require('./routes/ingest');
 const logsRouter      = require('./routes/logs');
 const dashboardRouter = require('./routes/dashboard');
 const alertsRouter    = require('./routes/alerts');
+const assessmentsRouter = require('./routes/assessments');
+const documentsRouter   = require('./routes/documents');
+const exportsRouter      = require('./routes/exports');
 
 const app  = express();
 const PORT = process.env.PORT || 4000;
@@ -61,6 +64,9 @@ app.use('/api/v1/projects', projectsRouter);  // Project + API key management
 app.use('/api/v1/logs', logsRouter);         // Log query/export
 app.use('/api/v1/dashboard', dashboardRouter); // Dashboard stats
 app.use('/api/v1/alerts', alertsRouter);      // Alert management
+app.use('/api/v1/assessments', assessmentsRouter); // Risk assessments
+app.use('/api/v1/documents', documentsRouter);   // Compliance documents
+app.use('/api/v1', exportsRouter);              // Export routes
 
 // ── Health check ──────────────────────────────────────────────────────────────
 app.get('/health', (_req, res) => res.json({ 
