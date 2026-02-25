@@ -29,7 +29,7 @@ export default function LogsTable({ projectId }: Props) {
     setLoading(true);
     setError('');
     try {
-      const filters = { page, limit: 20 };
+      const filters: any = { page, limit: 20 };
       if (search) filters.search = search;
       if (model) filters.model = model;
       if (startDate) filters.from = startDate;
@@ -39,8 +39,8 @@ export default function LogsTable({ projectId }: Props) {
       setLogs(res.logs);
       setTotal(res.pagination.total);
       setTotalPages(res.pagination.totalPages);
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to load logs.');
+    } catch (err: any) {
+      setError(err.message || 'Failed to load logs.');
     } finally {
       setLoading(false);
     }
