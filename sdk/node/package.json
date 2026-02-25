@@ -1,0 +1,24 @@
+{
+  "name": "@regulateai/sdk",
+  "version": "1.0.0",
+  "description": "EU AI Act compliance logging SDK. Automatically log every AI decision for audit readiness.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "keywords": ["ai", "compliance", "eu-ai-act", "audit", "logging", "gdpr", "regulation"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/regulateai/sdk"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
