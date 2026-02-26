@@ -137,7 +137,9 @@ export interface DashboardStats {
   human_review_rate: number;
   human_reviewed_count: number;
   model_changes_this_month: number;
+  models_in_use: string[];
   documents_created: number;
+  documents_required: number;
   documents_finalized: number;
   unread_alerts: number;
 }

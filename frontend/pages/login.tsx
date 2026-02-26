@@ -31,8 +31,8 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-brand-600">AI Logger</h1>
-          <p className="text-gray-500 mt-1 text-sm">Sign in to your dashboard</p>
+          <h1 className="text-3xl font-bold text-brand-600">RegulateAI</h1>
+          <p className="text-gray-500 mt-1 text-sm">EU AI Act Compliance Platform</p>
         </div>
 
         <div className="card">

@@ -1,7 +1,7 @@
 {
-  "name": "ai-logger-backend",
+  "name": "regulateai-backend",
   "version": "1.0.0",
-  "description": "AI Logger — REST API backend",
+  "description": "RegulateAI — EU AI Act Compliance Platform API",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -18,7 +18,6 @@
     "joi": "^17.12.2",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.3",
-    "stripe": "^14.21.0",
     "uuid": "^9.0.1",
     "winston": "^3.13.0"
   },

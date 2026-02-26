@@ -30,8 +30,8 @@ export default function SignupPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-brand-600">AI Logger</h1>
-          <p className="text-gray-500 mt-1 text-sm">Create your free account</p>
+          <h1 className="text-3xl font-bold text-brand-600">RegulateAI</h1>
+          <p className="text-gray-500 mt-1 text-sm">EU AI Act Compliance Platform</p>
         </div>
 
         <div className="card">
@@ -85,7 +85,7 @@ export default function SignupPage() {
         </div>
 
         <p className="text-center text-xs text-gray-400 mt-4">
-          Free plan: 1,000 logs/month. No credit card required.
+          Start logging AI decisions for compliance. No credit card required.
         </p>
       </div>
     </div>

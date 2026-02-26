@@ -57,9 +57,8 @@ const authLimiter = rateLimit({
 // Auth routes (login, signup, me)
 app.use('/auth', authLimiter, authRouter);
 
-// API v1 routes (all require authentication)
-app.use('/api/v1', require('./middleware/apiKeyAuth')); // API key middleware for SDK
-app.use('/api/v1/ingest', ingestRouter);    // Batch log ingestion from SDK
+// API v1 routes
+app.use('/api/v1/ingest', ingestRouter);    // Batch log ingestion from SDK (uses apiKeyAuth internally)
 app.use('/api/v1/projects', projectsRouter);  // Project + API key management
 app.use('/api/v1/logs', logsRouter);         // Log query/export
 app.use('/api/v1/dashboard', dashboardRouter); // Dashboard stats

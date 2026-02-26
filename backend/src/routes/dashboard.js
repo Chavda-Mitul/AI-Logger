@@ -81,6 +81,20 @@ router.get('/stats', requireJwt, async (req, res) => {
       [project_id]
     );
 
+    // Get models in use
+    const modelsResult = await pool.query(
+      `SELECT DISTINCT model FROM ai_logs WHERE project_id = $1 AND model IS NOT NULL`,
+      [project_id]
+    );
+    const modelsInUse = modelsResult.rows.map(r => r.model);
+
+    // Get documents required from risk assessment
+    const riskAssessment = await pool.query(
+      `SELECT documents_required FROM risk_assessments WHERE project_id = $1 ORDER BY created_at DESC LIMIT 1`,
+      [project_id]
+    );
+    const documentsRequired = riskAssessment.rows[0]?.documents_required?.length || 0;
+
     // Calculate compliance score
     const scoreResult = await pool.query(
       'SELECT calculate_compliance_score($1) as score',
@@ -115,8 +129,12 @@ router.get('/stats', requireJwt, async (req, res) => {
       // Model info
       model_changes_this_month: parseInt(modelChanges.rows[0].changes, 10),
 
+      // Models
+      models_in_use: modelsInUse,
+
       // Documents
       documents_created: parseInt(docs.rows[0].total, 10),
+      documents_required: documentsRequired,
       documents_finalized: parseInt(docs.rows[0].finalized, 10),
 
       // Alerts

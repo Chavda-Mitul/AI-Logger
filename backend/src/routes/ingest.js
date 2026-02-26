@@ -88,7 +88,8 @@ router.post('/logs', requireApiKey, async (req, res) => {
       $${paramIndex}, $${paramIndex + 1}, $${paramIndex + 2}, $${paramIndex + 3}, $${paramIndex + 4},
       $${paramIndex + 5}, $${paramIndex + 6}, $${paramIndex + 7}, $${paramIndex + 8}, $${paramIndex + 9},
       $${paramIndex + 10}, $${paramIndex + 11}, $${paramIndex + 12}, $${paramIndex + 13}, $${paramIndex + 14},
-      $${paramIndex + 15}, $${paramIndex + 16}, $${paramIndex + 17}, $${paramIndex + 18}, $${paramIndex + 19}
+      $${paramIndex + 15}, $${paramIndex + 16}, $${paramIndex + 17}, $${paramIndex + 18}, $${paramIndex + 19},
+      $${paramIndex + 20}
     )`);
 
     values.push(
@@ -108,13 +109,14 @@ router.post('/logs', requireApiKey, async (req, res) => {
       value.status,                         // 14: status
       value.error_message,                  // 15: error_message
       value.session_id,                     // 16: session_id
-      value.user_identifier,                 // 17: user_identifier
+      value.user_identifier,                // 17: user_identifier
       JSON.stringify(value.metadata || {}), // 18: metadata
       value.sdk_version,                    // 19: sdk_version
-      timestamp                            // 20: created_at (override)
+      value.sdk_language || 'node',         // 20: sdk_language
+      timestamp                             // 21: created_at (override)
     );
 
-    paramIndex += 20;
+    paramIndex += 21;
     accepted++;
   }
 
@@ -125,7 +127,7 @@ router.post('/logs', requireApiKey, async (req, res) => {
         org_id, project_id, api_key_id, prompt, output, model, model_version,
         confidence, latency_ms, tokens_input, tokens_output, human_reviewed,
         framework, status, error_message, session_id, user_identifier,
-        metadata, sdk_version, created_at
+        metadata, sdk_version, sdk_language, created_at
       ) VALUES ${placeholders.join(', ')}
     `;
 
