@@ -267,3 +267,113 @@ export const alertsApi = {
   resolve: (id: string) =>
     request<{ success: boolean }>('PUT', `/api/v1/alerts/${id}/resolve`),
 };
+
+// ── Assessments ───────────────────────────────────────────────────────────
+
+export interface Assessment {
+  id: string;
+  project_id: string | null;
+  email: string | null;
+  company_name: string | null;
+  answers: Record<string, any>;
+  risk_tier: 'PROHIBITED' | 'HIGH' | 'LIMITED' | 'MINIMAL';
+  compliance_score: number;
+  matched_articles: string[];
+  obligations: Record<string, any>;
+  documents_required: string[];
+  dpdp_applicable: boolean;
+  dpdp_obligations: Record<string, any> | null;
+  estimated_effort: string | null;
+  urgency: 'immediate' | '3_months' | '6_months' | null;
+  created_at: string;
+}
+
+export const assessmentsApi = {
+  create: (data: {
+    project_id?: string;
+    email?: string;
+    company_name?: string;
+    answers: Record<string, any>;
+    risk_tier: string;
+    compliance_score: number;
+    matched_articles?: string[];
+    obligations: Record<string, any>;
+    documents_required?: string[];
+    dpdp_applicable?: boolean;
+    dpdp_obligations?: Record<string, any>;
+    estimated_effort?: string;
+    urgency?: string;
+  }) =>
+    request<{ id: string; risk_tier: string; compliance_score: number }>(
+      'POST',
+      '/api/v1/assessments',
+      data
+    ),
+
+  get: (id: string) =>
+    request<{ assessment: Assessment }>('GET', `/api/v1/assessments/${id}`),
+
+  getByProject: (projectId: string) =>
+    request<{ assessment: Assessment }>('GET', `/api/v1/assessments/project/${projectId}`),
+};
+
+// ── Documents ─────────────────────────────────────────────────────────────
+
+export interface ComplianceDocument {
+  id: string;
+  project_id: string;
+  document_type: string;
+  title: string;
+  version: number;
+  content: Record<string, any>;
+  status: 'draft' | 'review' | 'final';
+  created_at: string;
+  updated_at: string;
+}
+
+export const documentsApi = {
+  listByProject: (projectId: string) =>
+    request<{ documents: ComplianceDocument[] }>(
+      'GET',
+      `/api/v1/projects/${projectId}/documents`
+    ),
+
+  create: (projectId: string, data: {
+    document_type: string;
+    title: string;
+    content: Record<string, any>;
+    form_data?: Record<string, any>;
+    status?: string;
+  }) =>
+    request<{ document: ComplianceDocument }>(
+      'POST',
+      `/api/v1/projects/${projectId}/documents`,
+      data
+    ),
+
+  get: (id: string) =>
+    request<{ document: ComplianceDocument }>('GET', `/api/v1/documents/${id}`),
+
+  update: (id: string, data: {
+    title?: string;
+    content?: Record<string, any>;
+    status?: string;
+    change_summary?: string;
+  }) =>
+    request<{ success: boolean; version: number }>(
+      'PUT',
+      `/api/v1/documents/${id}`,
+      data
+    ),
+
+  getVersions: (id: string) =>
+    request<{
+      versions: Array<{
+        id: string;
+        version: number;
+        change_summary: string;
+        created_at: string;
+        changed_by_name: string | null;
+      }>;
+    }>('GET', `/api/v1/documents/${id}/versions`),
+};

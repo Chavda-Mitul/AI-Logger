@@ -32,7 +32,9 @@ export default function Layout({ children }: Props) {
 
   const navLinks = [
     { href: '/dashboard', label: 'Dashboard', icon: '📊' },
+    { href: '/assessment', label: 'Assessment', icon: '📝' },
     { href: '/projects', label: 'Projects', icon: '📁' },
+    { href: '/documents', label: 'Documents', icon: '📄' },
     { href: '/logs', label: 'Logs', icon: '📋' },
     { href: '/api-keys', label: 'API Keys', icon: '🔑' },
   ];
